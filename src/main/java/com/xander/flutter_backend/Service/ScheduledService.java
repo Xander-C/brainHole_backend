@@ -18,7 +18,7 @@ public class ScheduledService {
     @Autowired
     UserDao userDao;
 
-    @Scheduled(cron = "0 0 23-2 * * ?")
+    @Scheduled(cron = "0 0 23,0,1,2 * * ?")
     void timeToSleep(){
         jiGuangPushUtil.pushNotice("all", "all", "睡了吗，没睡赶紧睡了");
     }
