@@ -5,10 +5,17 @@ import com.xander.flutter_backend.Mapper.UserDao;
 import com.xander.flutter_backend.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 @Configuration
@@ -49,4 +56,22 @@ public class ScheduledService {
         }
     }
 
+    @Scheduled(cron = "* * 18 * * ?")
+    void weather(){
+        List<User> userList = userDao.getUserList();
+        String result;
+        for(User i : userList) {
+            RestTemplate restTemplate=new RestTemplate();
+            result=restTemplate.exchange(i.getWeatherUrl(), HttpMethod.GET,null,String.class).getBody();
+            if (result!=null) {
+                String dayCodeStr = result.substring(485, 487);
+                String nightCodeStr = result.substring(693, 695);
+                System.out.println(dayCodeStr + "  " + nightCodeStr);
+                int dayCode = Integer.parseInt(dayCodeStr);
+                int nightCode = Integer.parseInt(nightCodeStr);
+                if ((dayCode >= 3 && dayCode <= 10) || (nightCode >= 3 && dayCode <= 10))
+                    jiGuangPushUtil.pushNotice("regId", i.getRegId(), "今天会下雨记得带伞哦");
+            }
+        }
+    }
 }

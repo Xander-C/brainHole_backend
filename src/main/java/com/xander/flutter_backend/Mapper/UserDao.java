@@ -35,7 +35,7 @@ public interface UserDao {
                 @Result(column = "exp", property = "exp"),
                 @Result(column = "lastChange", property = "lastChange")
         })
-        @Select("SELECT * FROM myapp)")
+        @Select("SELECT * FROM myapp")
         List<User> getUserList();
 
     @Results({

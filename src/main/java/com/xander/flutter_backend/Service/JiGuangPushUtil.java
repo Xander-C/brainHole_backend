@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class JiGuangPushUtil {
 
-    private JPushClient jPushClient=new JPushClient("","");//Todo: 这里填极光的masterSecret与appKey
+    private JPushClient jPushClient=new JPushClient("f8e1203e3aff327f18bdf17b","2f7c9abd2e325f3df5c73a46");//Todo: 这里填极光的masterSecret与appKey
 
     public void pushNotice(String type,String value,String alert){
         Builder builder= PushPayload.newBuilder();
