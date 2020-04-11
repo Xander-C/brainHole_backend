@@ -51,7 +51,7 @@ public class ScheduledService {
         }
     }
 
-    @Scheduled(cron = "* * 18 * * ?")
+    @Scheduled(cron = "* * 7 * * ?")
     void weather(){
         List<User> userList = userDao.getUserList();
         String result;
