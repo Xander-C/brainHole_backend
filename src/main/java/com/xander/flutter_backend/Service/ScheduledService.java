@@ -51,7 +51,7 @@ public class ScheduledService {
         }
     }
 
-    @Scheduled(cron = "* * 7 * * ?")
+    @Scheduled(cron = "* * 18 * * ?")
     void weather(){
         List<User> userList = userDao.getUserList();
         String result;
@@ -59,13 +59,7 @@ public class ScheduledService {
             RestTemplate restTemplate=new RestTemplate();
             result=restTemplate.exchange(i.getWeatherUrl(), HttpMethod.GET,null,String.class).getBody();
             if (result!=null) {
-                String dayCodeStr = result.substring(485, 487);
-                String nightCodeStr = result.substring(693, 695);
-                System.out.println(dayCodeStr + "  " + nightCodeStr);
-                int dayCode = Integer.parseInt(dayCodeStr);
-                int nightCode = Integer.parseInt(nightCodeStr);
-                if ((dayCode >= 3 && dayCode <= 10) || (nightCode >= 3 && dayCode <= 10))
-                    jiGuangPushUtil.pushNotice("regId", i.getRegId(), "今天会下雨记得带伞哦");
+
             }
         }
     }
